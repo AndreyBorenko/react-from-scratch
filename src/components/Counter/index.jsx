@@ -1,25 +1,47 @@
-import React, {useState} from 'react'
+import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 
-function Counter(props) {
-  const [initialCount, setInitialCount] = useState(1)
-  const [step, setStep] = useState(1)
+function Counter({ defaultStep = 1 }) {
+  const [count, setCount] = useState(1);
+  const [mode, setMode] = useState(true);
+  const [step, setStep] = useState(defaultStep);
 
-  const increment = () =>
-    setStep(step + 1)
-  
-  const decrement = () =>
-    setStep(step - 1)
-  
-  const calculate = () =>
-    setInitialCount(initialCount + step)
+  const setStepValue = (value) => {
+    if (value < 1) {
+      setStep(1);
+    } else if (value > 100) {
+      setStep(100);
+    } else {
+      setStep(value);
+    }
+  };
 
-  return(
+  const onStepChange = ({ target: { value } }) => setStepValue(+value);
+  const setCountValue = (value) => setCount(value);
+
+  const increment = () => setCountValue(count + step);
+  const decrement = () => setCountValue(count - step);
+
+  const changeMode = () => setMode(!mode);
+
+  return (
     <div>
-      <div>{initialCount}</div>
-      <div>{step}</div>
-      <button onClick={increment}>+step</button>
+      <div>count:{count}</div>
+      <div>step:{step}</div>
+      <input
+        value={step}
+        onChange={onStepChange}
+        type="number"
+        placeholder="enter step"
+      />
+      <button onClick={mode ? increment : decrement}>Step add</button>
+      <button onClick={changeMode}>Mode</button>
     </div>
-  )
+  );
 }
+
+Counter.propTypes = {
+  defaultStep: PropTypes.number,
+};
 
 export default Counter;

@@ -4,7 +4,7 @@ import Counter from './components/Counter';
 const App = () => {
   return <div>
     <h1>This is my React app!</h1>
-    <Counter />
+    <Counter defaultStep={1} />
   </div>;
 }
 ReactDOM.render(<App />, document.getElementById('app'));
